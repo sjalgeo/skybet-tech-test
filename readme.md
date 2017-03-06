@@ -19,8 +19,11 @@ from root directory.
 
 from `/public` directory. 
 
+### In your browser:
 
-### Notes:
+Navigate to `localhost:8080`
+
+#### Notes:
 
 The Frontend Javascript App is provided compiled for ease of use.
 
