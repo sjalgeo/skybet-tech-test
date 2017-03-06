@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchPundits, selectPundit, resetPundits, deletePundit } from '../actions/punditActions';
+import { Link } from 'react-router';
 
 class PunditList extends Component {
 
@@ -68,6 +69,7 @@ class PunditList extends Component {
 				</tbody>
 			</table>
 
+			<Link className="btn btn-primary" to="add">Add New Pundit</Link>
 			<button className="btn btn-danger" onClick={this.resetPundits}>Reset to Default</button>
 		</div>
 	}
