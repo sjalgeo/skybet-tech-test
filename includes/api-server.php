@@ -69,6 +69,36 @@ class API_Server {
 		);
 	}
 
+	protected function pundits_delete() {
+
+		if ( ! isset($_POST['id'] ) ) {
+
+			$this->response = array(
+				'status'    => 'error',
+				'code'      => 'missing-parameter',
+				'message'   => 'No pundit ID was provided.'
+			);
+
+			return;
+		}
+
+		$id = intval( $_POST['id'] );
+		$this->db->delete( 'pundits', $id );
+
+		$error = $this->db->get_last_error();
+
+		if ( $error ) {
+			$this->response = array(
+				'status'    => 'failed',
+				'code'      => $error
+			);
+		} else {
+			$this->response = array(
+				'status'    => 'success'
+			);
+		}
+	}
+
 	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
@@ -106,6 +136,10 @@ class API_Server {
 
 			case 'update':
 				$this->pundits_update();
+				break;
+
+			case 'delete':
+				$this->pundits_delete();
 				break;
 
 			default:

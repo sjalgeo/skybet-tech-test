@@ -72,6 +72,27 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	/**
+	 * Delete a single row from the database.
+	 */
+	public function testDelete() {
+
+		// Record must exist to begin with.
+		$this->db->fetch('pundits', 3);
+		$pundit = $this->db->get_last_result();
+
+		$this->assertArrayHasKey( 'firstname', $pundit );
+		$this->assertArrayHasKey( 'surname', $pundit );
+
+		// Delete record.
+		$this->db->delete( 'pundits', 3 );
+
+		// Record no longer exists.
+		$this->db->fetch('pundits', 3);
+		$pundit = $this->db->get_last_result();
+		$this->assertNull($pundit);
+	}
+
+	/**
 	 * Reset the Database after the tests.
 	 */
 	public function tearDown() {

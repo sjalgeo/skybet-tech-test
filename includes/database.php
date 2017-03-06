@@ -93,6 +93,36 @@ class Database {
 	}
 
 	/**
+	 *
+	 * Deletes a single row from the database.
+	 *
+	 * @param $table - The name of the flat file database table.
+	 * @param $id - The unique id of the record to delete.
+	 */
+	public function delete( $table, $id ) {
+		$this->last_error  = null;
+
+		$this->fetchAll($table);
+		$all = $this->get_last_result();
+
+		$found = false;
+
+		foreach ($all as $key => $row) {
+			// Force both to integers. TODO -notes
+			if ( isset($row['id']) AND intval($row['id']) === intval($id) ) {
+				unset($all[$key]);
+				$found = true;
+			}
+		}
+
+		if ( $found ) {
+			$this->commit($table, $all);
+		} else {
+			$this->last_error = 'ID_NOT_FOUND';
+		}
+	}
+
+	/**
 	 * Overwrites the entire data of the database.
 	 *
 	 * @param $table - The table to update
@@ -108,5 +138,12 @@ class Database {
 	 */
 	public function get_last_result() {
 		return $this->last_result;
+	}
+
+	/**
+	 * Provides the most recent error encountered by the database routines.
+	 */
+	public function get_last_error() {
+		return $this->last_error;
 	}
 }
