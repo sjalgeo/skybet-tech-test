@@ -39,3 +39,16 @@ export const updatePundit = ( data ) => {
 		payload: request
 	};
 };
+
+export const RESET_PUNDITS = 'RESET_PUNDITS';
+
+export const resetPundits = ( data ) => {
+
+	const ROOT_URL = 'http://localhost:8080/api.php/reset';
+	const request = axios.post( ROOT_URL );
+
+	return {
+		type: RESET_PUNDITS,
+		payload: request
+	};
+};

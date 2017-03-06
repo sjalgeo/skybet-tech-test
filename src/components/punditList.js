@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchPundits, selectPundit, updatePundit } from '../actions/punditActions';
+import { fetchPundits, selectPundit, resetPundits } from '../actions/punditActions';
 
 class PunditList extends Component {
 
@@ -12,6 +12,7 @@ class PunditList extends Component {
 		super();
 		this.renderRow = this.renderRow.bind(this);
 		this.editPundit = this.editPundit.bind(this);
+		this.resetPundits = this.resetPundits.bind(this);
 	}
 
 	componentWillMount() {
@@ -21,6 +22,11 @@ class PunditList extends Component {
 	editPundit( id ) {
 		this.props.selectPundit(id);
 		this.context.router.push('edit/' + id );
+	}
+
+	resetPundits() {
+		this.props.resetPundits()
+		  .then( this.props.fetchPundits );
 	}
 
 	renderRow( pundit, key ) {
@@ -52,6 +58,8 @@ class PunditList extends Component {
 				{this.renderPundits()}
 				</tbody>
 			</table>
+
+			<button className="btn btn-danger" onClick={this.resetPundits}>Reset to Default</button>
 		</div>
 	}
 }
@@ -61,4 +69,4 @@ const mapStateToProps = (state) => {
 	return { pundits: all };
 };
 
-export default connect( mapStateToProps, { fetchPundits, selectPundit } )( PunditList );
+export default connect( mapStateToProps, { fetchPundits, selectPundit, resetPundits } )( PunditList );
