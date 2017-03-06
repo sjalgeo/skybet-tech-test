@@ -100,6 +100,27 @@ class API_Server {
 	}
 
 	/**
+	 * Create an additional pundit and insert it into the database.
+	 */
+	protected function pundits_create() {
+
+		if ( ! isset( $_POST['firstname'] ) OR ! isset( $_POST['surname'] ) ) {
+			$this->failure_response();
+			return;
+		}
+
+		$data = array(
+			'firstname' => htmlspecialchars( $_POST['firstname'] ),
+			'surname'   => htmlspecialchars( $_POST['surname'] )
+		);
+
+		$this->db->create( 'pundits', $data );
+		$this->response = array(
+			'status'    => 'success',
+		);
+	}
+
+	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
 	protected function failure_response() {
@@ -140,6 +161,10 @@ class API_Server {
 
 			case 'delete':
 				$this->pundits_delete();
+				break;
+
+			case 'create':
+				$this->pundits_create();
 				break;
 
 			default:
