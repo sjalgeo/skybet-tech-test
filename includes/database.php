@@ -123,6 +123,34 @@ class Database {
 	}
 
 	/**
+	 *
+	 * Inserts an additional record to the end of the database.
+	 *
+	 * @param $table - The name of the flat file database table.
+	 * @param $data - Key Value pairs of data.
+	 */
+	public function create( $table, $data ) {
+		$this->last_error  = null;
+
+		$this->fetchAll( $table );
+		$all_pundits =  $this->get_last_result();
+
+		$ids = array_map( function ( $pundit ) {
+			return $pundit['id'];
+		}, $all_pundits);
+
+		$max = max( $ids );
+		$new_id = ++$max;
+
+		$new_pundit = array_merge( array( 'id' => $new_id ), $data );
+		$all_pundits[] = $new_pundit;
+
+		$this->last_id = $new_id;
+
+		$this->commit( $table, $all_pundits );
+	}
+
+	/**
 	 * Overwrites the entire data of the database.
 	 *
 	 * @param $table - The table to update
@@ -145,5 +173,12 @@ class Database {
 	 */
 	public function get_last_error() {
 		return $this->last_error;
+	}
+
+	/**
+	 * Returns the unique id, if applicable of the most recently inserted row.
+	 */
+	public function get_last_id() {
+		return $this->last_id;
 	}
 }

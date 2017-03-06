@@ -96,6 +96,40 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	/**
+	 * Adds a new record to the database.
+	 */
+	public function testCreate() {
+		$this->db->fetchAll( 'pundits' );
+		$all_pundits = $this->db->get_last_result();
+
+		$ids_in_use = array_map( function ( $pundit ) {
+			return $pundit['id'];
+		}, $all_pundits);
+
+		$new_pundit = array(
+			'firstname' => 'Tim',
+			'surname'   => 'Cahill'
+		);
+
+		$this->db->create( 'pundits', $new_pundit );
+
+		$new_id = $this->db->get_last_id();
+
+		$this->assertFalse( in_array( $new_id, $ids_in_use ) );
+
+		$this->db->fetch( 'pundits', $new_id );
+		$new_pundit = $this->db->get_last_result();
+
+		$this->assertEquals( $new_pundit['firstname'], 'Tim' );
+		$this->assertEquals( $new_pundit['surname'], 'Cahill' );
+
+		$this->db->fetchAll( 'pundits' );
+		$all_pundits = $this->db->get_last_result();
+
+		$this->assertEquals( count( $all_pundits ), 6 );
+	}
+
+	/**
 	 * Reset the Database after the tests.
 	 */
 	public function tearDown() {
