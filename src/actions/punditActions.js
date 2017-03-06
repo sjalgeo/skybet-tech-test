@@ -42,7 +42,7 @@ export const updatePundit = ( data ) => {
 
 export const RESET_PUNDITS = 'RESET_PUNDITS';
 
-export const resetPundits = ( data ) => {
+export const resetPundits = () => {
 
 	const ROOT_URL = 'http://localhost:8080/api.php/reset';
 	const request = axios.post( ROOT_URL );
