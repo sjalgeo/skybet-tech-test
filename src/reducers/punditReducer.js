@@ -17,7 +17,7 @@ export default ( state = INITIAL_STATE, action ) => {
 				return state;
 			}
 
-		case SELECT_PUNDIT:å
+		case SELECT_PUNDIT:
 			const matchId = pundit => { return pundit.id === action.payload };
 			return { ...state, selected: state.all.find( matchId ) };
 
