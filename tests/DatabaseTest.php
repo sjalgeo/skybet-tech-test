@@ -130,6 +130,27 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	/**
+	 * Test fetching a single value from the database.
+	 */
+	public function testReadSingleFromDatabase() {
+		$this->db->fetch( 'pundits', 3 );
+		$pundit = $this->db->get_last_result();
+
+		$this->assertArrayHasKey( 'firstname', $pundit );
+		$this->assertArrayHasKey( 'surname', $pundit );
+	}
+
+	/**
+	 * Test the app fails elegantly when the row does not exist.
+	 */
+	public function testMissingFromDatabase() {
+		$this->db->fetch( 'pundits', 33 );
+		$pundit = $this->db->get_last_result();
+
+		$this->assertNull($pundit);
+	}
+
+	/**
 	 * Reset the Database after the tests.
 	 */
 	public function tearDown() {
