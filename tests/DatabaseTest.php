@@ -6,6 +6,9 @@ use SBTechTest\Database;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase{
 
+	private $root_directory;
+	private $db;
+
 	public function __construct() {
 		$this->root_directory = ROOT_DIR;
 		$this->db = new Database( $this->root_directory );
