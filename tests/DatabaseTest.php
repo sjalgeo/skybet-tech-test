@@ -13,6 +13,13 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	}
 
 	/**
+	 * Reset the Database before tests.
+	 */
+	public function setUp() {
+		$this->db->reset();
+	}
+
+	/**
 	 * Updates the flat file with alternate data and then resets and confirms
 	 * the correct data has been restored.
 	 */
@@ -42,5 +49,32 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 		}
 
 		$this->assertCount(5, $data);
+	}
+
+	/**
+	 * Change record id(3) to new name.
+	 */
+	public function testUpdate() {
+
+		$data = array(
+			'firstname' => 'Andy',
+			'surname'   => 'Hinchcliffe'
+		);
+
+		$this->db->update( 'pundits', 3, $data );
+
+		$this->db->fetch('pundits', 3);
+
+		$pundit = $this->db->get_last_result();
+
+		$this->assertEquals( 'Andy', $pundit['firstname'] );
+		$this->assertEquals( 'Hinchcliffe', $pundit['surname'] );
+	}
+
+	/**
+	 * Reset the Database after the tests.
+	 */
+	public function tearDown() {
+		$this->db->reset();
 	}
 }

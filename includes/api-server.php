@@ -53,6 +53,23 @@ class API_Server {
 	}
 
 	/**
+	 * Update a single record in the database, based on the posted data.
+	 */
+	protected function pundits_update() {
+		$id = intval( $_POST['id'] );
+		$data = array(
+			'firstname' => htmlspecialchars( $_POST['firstname'] ),
+			'surname'   => htmlspecialchars( $_POST['surname'] )
+		);
+
+		$this->db->update( 'pundits', $id, $data );
+
+		$this->response = array(
+			'status'    => 'success'
+		);
+	}
+
+	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
 	protected function failure_response() {
@@ -85,6 +102,10 @@ class API_Server {
 
 			case 'reset':
 				$this->pundits_reset();
+				break;
+
+			case 'update':
+				$this->pundits_update();
 				break;
 
 			default:
