@@ -22,7 +22,6 @@ class PunditList extends Component {
 	}
 
 	editPundit( id ) {
-		this.props.selectPundit(id);
 		this.context.router.push('edit/' + id );
 	}
 

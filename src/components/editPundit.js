@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { updatePundit } from '../actions/punditActions';
+import { updatePundit, selectPundit, fetchPundits } from '../actions/punditActions';
 import { Link } from 'react-router';
 import validate from './validate';
 import renderField from './renderField';
@@ -12,8 +12,14 @@ class EditPunditForm extends Component {
 		router: PropTypes.object
 	};
 
-	componentDidMount() {
-		this.handleInitialize();
+	componentWillMount() {
+		const { id } = this.props.params;
+		const updatePundit = () => {
+			this.props.selectPundit(id);
+			this.handleInitialize();
+		};
+
+		this.props.fetchPundits().then( updatePundit );
 	}
 
 	handleInitialize() {
@@ -73,4 +79,4 @@ const mapStateToProps = (state) => {
 	return { pundit: state.pundits.selected };
 };
 
-export default connect( mapStateToProps, { updatePundit } )( editPunditForm );
+export default connect( mapStateToProps, { updatePundit, selectPundit, fetchPundits } )( editPunditForm );
