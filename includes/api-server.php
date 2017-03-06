@@ -42,6 +42,17 @@ class API_Server {
 	}
 
 	/**
+	 * Resets the database to its initial values.
+	 */
+	protected function pundits_reset() {
+		$this->db->reset();
+
+		$this->response = array(
+			'status'    => 'success'
+		);
+	}
+
+	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
 	protected function failure_response() {
@@ -70,6 +81,10 @@ class API_Server {
 
 			case 'list':
 				$this->pundits_list();
+				break;
+
+			case 'reset':
+				$this->pundits_reset();
 				break;
 
 			default:

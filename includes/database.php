@@ -13,6 +13,15 @@ class Database {
 	}
 
 	/**
+	 * Resets the Database to its initial values.
+	 */
+	public function reset() {
+		$this->last_error  = null;
+		$data = '[{"firstname":"Jeff","surname":"Stelling","id":"1"},{"firstname":"Chris","surname":"Kamara","id":"2"},{"firstname":"Alex","surname":"Hammond","id":"3"},{"firstname":"Jim","surname":"White","id":"4"},{"firstname":"Natalie","surname":"Sawyer","id":"5"}]';
+		file_put_contents( $this->root_directory.'pundits.json', $data );
+	}
+
+	/**
 	 * @param $table - The name of the flat file database table.
 	 */
 	public function fetchAll( $table ) {
