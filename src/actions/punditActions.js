@@ -52,3 +52,19 @@ export const resetPundits = () => {
 		payload: request
 	};
 };
+
+export const DELETE_PUNDIT = 'DELETE_PUNDIT';
+
+export const deletePundit = ( id ) => {
+
+	let form = new FormData();
+	form.append('id', id);
+
+	const ROOT_URL = 'http://localhost:8080/api.php/delete';
+	const request = axios.post( ROOT_URL, form );
+
+	return {
+		type: DELETE_PUNDIT,
+		payload: request
+	};
+};
