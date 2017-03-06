@@ -1,7 +1,8 @@
-import { FETCH_PUNDITS } from '../actions/punditActions';
+import { FETCH_PUNDITS, SELECT_PUNDIT } from '../actions/punditActions';
 
 const INITIAL_STATE = {
-	all: []
+	all: [],
+	selected: null
 };
 
 export default ( state = INITIAL_STATE, action ) => {
@@ -15,6 +16,10 @@ export default ( state = INITIAL_STATE, action ) => {
 			} else {
 				return state;
 			}
+
+		case SELECT_PUNDIT:å
+			const matchId = pundit => { return pundit.id === action.payload };
+			return { ...state, selected: state.all.find( matchId ) };
 
 		default:
 			return state;
