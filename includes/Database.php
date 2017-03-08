@@ -1,6 +1,6 @@
 <?php
 
-namespace SBTechTest;
+namespace SkyBetTechTest;
 
 class Database {
 

@@ -1,10 +1,8 @@
 <?php
 
-namespace SBTechTest;
+namespace SkyBetTechTest;
 
-use SBTechTest\Endpoint\Pundit_List_Endpoint;
-
-class API_Server {
+class APIServer {
 
 	protected $request_uri;
 	protected $response;
