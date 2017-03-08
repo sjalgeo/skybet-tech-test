@@ -2,16 +2,22 @@
 
 namespace SkyBetTechTest;
 
+use SkyBetTechTest\Controller\PunditCreateController;
+use SkyBetTechTest\Controller\PunditDeleteController;
+use SkyBetTechTest\Controller\PunditListController;
+use SkyBetTechTest\Controller\PunditResetController;
+use SkyBetTechTest\Controller\PunditUpdateController;
+
 class APIServer {
 
 	protected $request_uri;
 	protected $response;
 	protected $endpoint = false;
+	protected $db;
 
-	public function __construct( $request_uri, $root_directory ) {
+	public function __construct( $request_uri, $database ) {
 		$this->request_uri = $request_uri;
-		$this->root_directory = $root_directory;
-		$this->db = new Database( $this->root_directory );
+		$this->db = $database;
 
 		$this->parse_endpoint();
 	}
@@ -28,95 +34,15 @@ class APIServer {
 		}
 	}
 
-	/**
-	 * List all pundits from database.
-	 */
-	protected function pundits_list() {
-		$this->db->fetchAll('pundits');
-		$this->response = array(
-			'status' => 'success',
-			'data' => $this->db->get_last_result()
-		);
-	}
 
-	/**
-	 * Resets the database to its initial values.
-	 */
-	protected function pundits_reset() {
-		$this->db->reset();
 
-		$this->response = array(
-			'status'    => 'success'
-		);
-	}
 
-	/**
-	 * Update a single record in the database, based on the posted data.
-	 */
-	protected function pundits_update() {
-		$id = intval( $_POST['id'] );
-		$data = array(
-			'firstname' => htmlspecialchars( $_POST['firstname'] ),
-			'surname'   => htmlspecialchars( $_POST['surname'] )
-		);
 
-		$this->db->update( 'pundits', $id, $data );
 
-		$this->response = array(
-			'status'    => 'success'
-		);
-	}
 
-	protected function pundits_delete() {
 
-		if ( ! isset($_POST['id'] ) ) {
 
-			$this->response = array(
-				'status'    => 'error',
-				'code'      => 'missing-parameter',
-				'message'   => 'No pundit ID was provided.'
-			);
 
-			return;
-		}
-
-		$id = intval( $_POST['id'] );
-		$this->db->delete( 'pundits', $id );
-
-		$error = $this->db->get_last_error();
-
-		if ( $error ) {
-			$this->response = array(
-				'status'    => 'failed',
-				'code'      => $error
-			);
-		} else {
-			$this->response = array(
-				'status'    => 'success'
-			);
-		}
-	}
-
-	/**
-	 * Create an additional pundit and insert it into the database.
-	 */
-	protected function pundits_create() {
-
-		if ( ! isset( $_POST['firstname'] ) OR ! isset( $_POST['surname'] ) ) {
-			$this->failure_response();
-			return;
-		}
-
-		$data = array(
-			'firstname' => htmlspecialchars( $_POST['firstname'] ),
-			'surname'   => htmlspecialchars( $_POST['surname'] )
-		);
-
-		$this->db->create( 'pundits', $data );
-		$this->response = array(
-			'status'    => 'success',
-		);
-	}
 
 	/**
 	 * Failure response returned to anybody without an matching path.
@@ -146,38 +72,30 @@ class APIServer {
 		switch ( $this->endpoint ) {
 
 			case 'list':
-				$this->pundits_list();
+				$controller = new PunditListController( $this->db );
 				break;
 
 			case 'reset':
-				$this->pundits_reset();
+				$controller = new PunditResetController( $this->db );
 				break;
 
 			case 'update':
-				$this->pundits_update();
+				$controller = new PunditUpdateController( $this->db );
 				break;
 
 			case 'delete':
-				$this->pundits_delete();
+				$controller = new PunditDeleteController( $this->db );
 				break;
 
 			case 'create':
-				$this->pundits_create();
+				$controller = new PunditCreateController( $this->db );
 				break;
 
 			default:
 				$this->failure_response();
 		}
 
-		$this->output();
-	}
-
-	/**
-	 * Output the required information or feedback message.
-	 */
-	public function output() {
-		header('Content-Type: application/json');
-		echo json_encode( $this->response );
-		exit;
+		$controller->run();
+		$controller->render();
 	}
 }
