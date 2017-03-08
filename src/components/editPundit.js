@@ -15,10 +15,10 @@ class EditPunditForm extends Component {
 	componentWillMount() {
 		const { id } = this.props.params;
 		const updatePundit = () => {
-			this.props.selectPundit(id);
-			this.handleInitialize();
+            this.handleInitialize();
 		};
 
+        this.props.selectPundit(id);
 		this.props.fetchPundits().then( updatePundit );
 	}
 
@@ -76,7 +76,9 @@ let editPunditForm = reduxForm({
 })(EditPunditForm);
 
 const mapStateToProps = (state) => {
-	return { pundit: state.pundits.selected };
+    const matchId = pundit => parseInt(pundit.id) === parseInt(state.pundits.selected);
+    const pundit = state.pundits.all.find( matchId );
+	return { pundit };
 };
 
 export default connect( mapStateToProps, { updatePundit, selectPundit, fetchPundits } )( editPunditForm );
