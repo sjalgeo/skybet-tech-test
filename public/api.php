@@ -15,8 +15,7 @@ use SkyBetTechTest\APIServer;
 /**
  * Determine app's root directory as a reference for the rest of the app.
  */
-$root_directory = realpath( __FILE__ );
-$root_directory = str_replace( 'public/api.php', '', $root_directory );
+$root_directory = rtrim( __DIR__, 'public');
 
 /**
  * Run Server, and see if there is a response based on the supplied data.
