@@ -24,7 +24,22 @@ $root_directory = rtrim( __DIR__, 'public');
 $database = new Database( $root_directory );
 
 /**
+ * Determine the request method used by the client.
+ */
+$request_method = $_SERVER['REQUEST_METHOD'];
+
+/**
  * Run Server, and see if there is a response based on the supplied data.
  */
-$server = new APIServer( $request_uri, $database );
+$parameters = array(
+	'uri'       => $request_uri,
+	'method'    => $request_method,
+	'database'  => $database,
+	'postdata'  => $_POST
+);
+
+$server = new APIServer( $parameters );
 $server->run();
+
+header('Content-Type: application/json');
+echo $server->getJSONResponse();

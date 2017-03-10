@@ -16,10 +16,14 @@ class APIServer {
 	protected $response;
 	protected $endpoint = false;
 	protected $db;
+	protected $method;
+	protected $postdata;
 
-	public function __construct( $request_uri, $database ) {
-		$this->request_uri = $request_uri;
-		$this->db = $database;
+	public function __construct( $parameters ) {
+		$this->db = $parameters['database'];
+		$this->method = $parameters['method'];
+		$this->postdata = $parameters['postdata'];
+		$this->request_uri = $parameters['uri'];
 
 		$this->parse_endpoint();
 	}
@@ -29,7 +33,7 @@ class APIServer {
 	 */
 	protected function parse_endpoint() {
 
-		$parts = explode( '/', $this->request_uri );
+		$parts = explode( DIRECTORY_SEPARATOR, $this->request_uri );
 
 		if ( isset( $parts[1] ) ) {
 			$this->endpoint = $parts[1];
@@ -39,9 +43,9 @@ class APIServer {
 	/**
 	 * Runs the required service based on the endpoint requested.
 	 */
-	public function run() {
+	public function run( $return = false ) {
 
-		if ( ! in_array( $_SERVER['REQUEST_METHOD'], array('GET', 'POST') ) ) {
+		if ( ! in_array( $this->method, array('GET', 'POST') ) ) {
 			$this->response = array(
 				'status'    => 'error',
 				'code'      => 'invalid-method',
@@ -73,6 +77,7 @@ class APIServer {
 				break;
 
 			default:
+				$controller = null;
 				$data = array(
 					'code' =>'invalid-request',
 					'message' =>'This request was invalid please check your things.'
@@ -85,12 +90,13 @@ class APIServer {
 			$controller->run();
 			$this->response = $controller->getResponse();
 		}
-
-		$this->render();
 	}
 
-	protected function render() {
-		header('Content-Type: application/json');
-		echo json_encode( $this->response );
+	public function getResponse() {
+		return $this->response;
+	}
+
+	public function getJSONResponse() {
+		return json_encode( $this->getResponse() );
 	}
 }
