@@ -8,10 +8,11 @@ class PunditUpdateController extends JSONController {
 	 * Update a single record in the database, based on the posted data.
 	 */
 	public function run() {
-		$id = intval( $_POST['id'] );
+
+		$id = intval( $this->postData['id'] );
 		$data = array(
-			'firstname' => htmlspecialchars( $_POST['firstname'] ),
-			'surname'   => htmlspecialchars( $_POST['surname'] )
+			'firstname' => htmlspecialchars( $this->postData['firstname'] ),
+			'surname'   => htmlspecialchars( $this->postData['surname'] )
 		);
 
 		$this->db->update( 'pundits', $id, $data );

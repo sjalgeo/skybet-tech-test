@@ -65,7 +65,7 @@ class APIServer {
 				break;
 
 			case 'update':
-				$controller = new PunditUpdateController( $this->db );
+				$controller = new PunditUpdateController( $this->db, $this->postData );
 				break;
 
 			case 'delete':
