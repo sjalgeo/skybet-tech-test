@@ -1,6 +1,6 @@
 <?php
 
-namespace SkyBetTechTest\Tests\API;
+namespace SkyBetTechTest\Tests\Database;
 
 use SkyBetTechTest\Database;
 

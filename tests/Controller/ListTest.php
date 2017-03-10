@@ -1,11 +1,11 @@
 <?php
 
-namespace SkyBetTechTest\Tests\API;
+namespace SkyBetTechTest\Tests\Controller;
 
 use SkyBetTechTest\APIServer;
 use SkyBetTechTest\Database;
 
-class ControllerTest extends \PHPUnit_Framework_TestCase {
+class ListTest extends \PHPUnit_Framework_TestCase {
 
 	private $root_url;
 	private $db;

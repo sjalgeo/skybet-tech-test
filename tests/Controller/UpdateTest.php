@@ -24,7 +24,6 @@ class UpdateTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @group failing
 	 * Tests that the Update controller is called given the parameters.
 	 */
 	public function testUpdate() {

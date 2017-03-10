@@ -34,7 +34,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase {
 
 		$parameters = array(
 			'uri'       => $request_uri,
-			'method'    => 'GET',
+			'method'    => 'POST',
 			'database'  => $this->db,
 			'postdata'  => array( 'id' => 3 )
 		);
