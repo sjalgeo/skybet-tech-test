@@ -5,7 +5,7 @@ namespace SkyBetTechTest\Tests\Controller;
 use SkyBetTechTest\APIServer;
 use SkyBetTechTest\Database;
 
-class CreateTest extends \PHPUnit_Framework_TestCase {
+class ResetTest extends \PHPUnit_Framework_TestCase {
 
 	private $root_url;
 	private $db;
@@ -24,22 +24,20 @@ class CreateTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests that the Create controller is called given the parameters.
+	 * @group failing
+	 * Tests that the Update controller is called given the parameters.
 	 */
-	public function testCreate() {
+	public function testUpdate() {
 
 		$this->assertTrue(true);
 
-		$request_uri = $this->root_url . 'create';
+		$request_uri = $this->root_url . 'reset';
 
 		$parameters = array(
 			'uri'       => $request_uri,
 			'method'    => 'POST',
 			'database'  => $this->db,
-			'postdata'  => array(
-				'firstname' => 'Anders',
-				'surname'   => 'Limpar',
-			)
+			'postdata'  => array()
 		);
 
 		$server = new APIServer( $parameters );
@@ -51,6 +49,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('status', $response);
 		$this->assertArrayHasKey('command', $response);
 
-		$this->assertEquals( $response['command'], 'create' );
+		$this->assertEquals( $response['command'], 'reset' );
 	}
 }
