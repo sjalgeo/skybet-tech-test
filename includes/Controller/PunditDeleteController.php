@@ -6,7 +6,7 @@ class PunditDeleteController extends JSONController {
 
 	public function run() {
 
-		if ( ! isset($_POST['id'] ) ) {
+		if ( ! isset( $this->postData['id'] ) ) {
 
 			$this->response = array(
 				'status'    => 'error',
@@ -17,7 +17,7 @@ class PunditDeleteController extends JSONController {
 			return;
 		}
 
-		$id = intval( $_POST['id'] );
+		$id = intval( $this->postData['id'] );
 		$this->db->delete( 'pundits', $id );
 
 		$error = $this->db->get_last_error();

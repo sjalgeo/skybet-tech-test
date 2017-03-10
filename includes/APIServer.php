@@ -17,12 +17,12 @@ class APIServer {
 	protected $endpoint = false;
 	protected $db;
 	protected $method;
-	protected $postdata;
+	protected $postData;
 
 	public function __construct( $parameters ) {
 		$this->db = $parameters['database'];
 		$this->method = $parameters['method'];
-		$this->postdata = $parameters['postdata'];
+		$this->postData = $parameters['postdata'];
 		$this->request_uri = $parameters['uri'];
 
 		$this->parse_endpoint();
@@ -69,7 +69,7 @@ class APIServer {
 				break;
 
 			case 'delete':
-				$controller = new PunditDeleteController( $this->db );
+				$controller = new PunditDeleteController( $this->db, $this->postData );
 				break;
 
 			case 'create':

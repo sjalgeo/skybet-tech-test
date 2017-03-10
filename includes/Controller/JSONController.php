@@ -9,8 +9,9 @@ abstract class JSONController {
 	protected $response;
 	protected $db;
 
-	public function __construct( Database $database ) {
+	public function __construct( Database $database, $postData = array() ) {
 		$this->db = $database;
+		$this->postData = $postData;
 	}
 
 	abstract function run();
