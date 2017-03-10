@@ -1,8 +1,9 @@
 <?php
 
-$root_directory = realpath( __FILE__ );
-$root_directory = str_replace( 'bootstrap.php', '', $root_directory );
+ini_set('error_reporting', E_ALL); // or error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 
-define( 'ROOT_DIR', $root_directory );
+define( 'ROOT_DIR', __DIR__ );
 
-require_once ('autoload.php');
+require_once( 'vendor/autoload.php' );

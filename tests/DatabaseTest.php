@@ -1,10 +1,10 @@
 <?php
 
-namespace SBTechTest\Tests\API;
+namespace SkyBetTechTest\Tests\API;
 
-use SBTechTest\Database;
+use SkyBetTechTest\Database;
 
-class DatabaseTest extends \PHPUnit_Framework_TestCase{
+class DatabaseTest extends \PHPUnit_Framework_TestCase {
 
 	private $root_directory;
 	private $db;
@@ -12,7 +12,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	public function __construct() {
 		$this->root_directory = ROOT_DIR;
 		$this->db = new Database( $this->root_directory );
-		$this->db_file = $this->root_directory . 'pundits.json';
+		$this->db_file = $this->root_directory . DIRECTORY_SEPARATOR . 'pundits.json';
 	}
 
 	/**
@@ -30,7 +30,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 		$test_data = 'NOT_THE_DATA';
 		file_put_contents( $this->db_file, $test_data );
 		$file_data = file_get_contents( $this->db_file );
-		$this->assertEquals( $test_data, $file_data);
+		$this->assertEquals( $test_data, $file_data );
+
 
 		$pundit_data = '[{"firstname":"Jeff","surname":"Stelling","id":"1"},{"firstname":"Chris","surname":"Kamara","id":"2"},{"firstname":"Alex","surname":"Hammond","id":"3"},{"firstname":"Jim","surname":"White","id":"4"},{"firstname":"Natalie","surname":"Sawyer","id":"5"}]';
 		$this->db->reset();
@@ -66,7 +67,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 
 		$this->db->update( 'pundits', 3, $data );
 
-		$this->db->fetch('pundits', 3);
+		$this->db->fetch( 'pundits', 3 );
 
 		$pundit = $this->db->get_last_result();
 
@@ -80,7 +81,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 	public function testDelete() {
 
 		// Record must exist to begin with.
-		$this->db->fetch('pundits', 3);
+		$this->db->fetch( 'pundits', 3 );
 		$pundit = $this->db->get_last_result();
 
 		$this->assertArrayHasKey( 'firstname', $pundit );
@@ -90,7 +91,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase{
 		$this->db->delete( 'pundits', 3 );
 
 		// Record no longer exists.
-		$this->db->fetch('pundits', 3);
+		$this->db->fetch( 'pundits', 3 );
 		$pundit = $this->db->get_last_result();
 		$this->assertNull($pundit);
 	}

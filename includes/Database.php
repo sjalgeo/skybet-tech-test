@@ -15,10 +15,10 @@ class Database {
 	/**
 	 * Resets the Database to its initial values.
 	 */
-	public function reset() {
+	public function reset( $table = 'pundits' ) {
 		$this->last_error  = null;
 		$data = '[{"firstname":"Jeff","surname":"Stelling","id":"1"},{"firstname":"Chris","surname":"Kamara","id":"2"},{"firstname":"Alex","surname":"Hammond","id":"3"},{"firstname":"Jim","surname":"White","id":"4"},{"firstname":"Natalie","surname":"Sawyer","id":"5"}]';
-		file_put_contents( $this->root_directory.'pundits.json', $data );
+		file_put_contents( $this->root_directory . DIRECTORY_SEPARATOR . $table . '.json', $data );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Database {
 		}
 
 		if ( $found ) {
-			$this->commit($table, $all);
+			$this->commit( $table, $all );
 		} else {
 			$this->last_error = 'ID_NOT_FOUND';
 		}
@@ -156,8 +156,8 @@ class Database {
 	 * @param $table - The table to update
 	 * @param $data - The collection of rows for the table (as php array)
 	 */
-	protected function commit($table, $data) {
-		$db_file = $this->root_directory.'pundits.json';
+	protected function commit( $table, $data ) {
+		$db_file = $this->root_directory . DIRECTORY_SEPARATOR . $table . '.json';
 		file_put_contents( $db_file, json_encode( array_values( $data ) ) );
 	}
 
