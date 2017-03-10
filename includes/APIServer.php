@@ -2,6 +2,8 @@
 
 namespace SkyBetTechTest;
 
+use SkyBetTechTest\Controller\FailureResponseController;
+use SkyBetTechTest\Controller\JSONController;
 use SkyBetTechTest\Controller\PunditCreateController;
 use SkyBetTechTest\Controller\PunditDeleteController;
 use SkyBetTechTest\Controller\PunditListController;
@@ -32,27 +34,6 @@ class APIServer {
 		if ( isset( $parts[1] ) ) {
 			$this->endpoint = $parts[1];
 		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * Failure response returned to anybody without an matching path.
-	 */
-	protected function failure_response() {
-		$this->response = array(
-			'status'    => 'error',
-			'code'      => 'invalid-request',
-			'message'   => 'This request was invalid please check your things.'
-		);
 	}
 
 	/**
@@ -92,10 +73,24 @@ class APIServer {
 				break;
 
 			default:
-				$this->failure_response();
+				$data = array(
+					'code' =>'invalid-request',
+					'message' =>'This request was invalid please check your things.'
+				);
+				$this->response = new FailureResponse( $data );
+
 		}
 
-		$controller->run();
-		$controller->render();
+		if ( $controller instanceof JSONController ) {
+			$controller->run();
+			$this->response = $controller->getResponse();
+		}
+
+		$this->render();
+	}
+
+	protected function render() {
+		header('Content-Type: application/json');
+		echo json_encode( $this->response );
 	}
 }
