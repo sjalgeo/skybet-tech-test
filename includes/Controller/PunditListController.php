@@ -11,6 +11,7 @@ class PunditListController extends JSONController {
 		$this->db->fetchAll('pundits');
 		$this->response = array(
 			'status' => 'success',
+			'command'=> 'list',
 			'data' => $this->db->get_last_result()
 		);
 	}

@@ -29,7 +29,8 @@ class PunditDeleteController extends JSONController {
 			);
 		} else {
 			$this->response = array(
-				'status'    => 'success'
+				'status'    => 'success',
+				'command'   => 'delete'
 			);
 		}
 	}

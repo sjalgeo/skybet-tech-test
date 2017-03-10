@@ -21,6 +21,7 @@ class PunditCreateController extends JSONController {
 		$this->db->create( 'pundits', $data );
 		$this->response = array(
 			'status'    => 'success',
+			'command'   => 'create'
 		);
 	}
 }

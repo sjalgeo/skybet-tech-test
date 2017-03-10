@@ -33,6 +33,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertArrayHasKey('status', $response);
 		$this->assertArrayHasKey('data', $response);
+		$this->assertArrayHasKey('command', $response);
+
+		$this->assertEquals( $response['command'], 'list' );
 
 		$this->assertEquals( $response['status'], 'success');
 

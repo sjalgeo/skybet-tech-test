@@ -11,7 +11,8 @@ class PunditResetController extends JSONController {
 		$this->db->reset();
 
 		$this->response = array(
-			'status'    => 'success'
+			'status'    => 'success',
+			'command'   => 'reset'
 		);
 	}
 

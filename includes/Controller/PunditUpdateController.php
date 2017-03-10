@@ -17,7 +17,8 @@ class PunditUpdateController extends JSONController {
 		$this->db->update( 'pundits', $id, $data );
 
 		$this->response = array(
-			'status'    => 'success'
+			'status'    => 'success',
+			'command'   => 'update'
 		);
 	}
 }
