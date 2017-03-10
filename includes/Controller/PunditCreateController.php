@@ -8,14 +8,14 @@ class PunditCreateController extends JSONController {
 	 */
 	public function run() {
 
-		if ( ! isset( $_POST['firstname'] ) OR ! isset( $_POST['surname'] ) ) {
+		if ( ! isset( $this->postData['firstname'] ) OR ! isset( $this->postData['surname'] ) ) {
 			$this->failure_response();
 			return;
 		}
 
 		$data = array(
-			'firstname' => htmlspecialchars( $_POST['firstname'] ),
-			'surname'   => htmlspecialchars( $_POST['surname'] )
+			'firstname' => htmlspecialchars( $this->postData['firstname'] ),
+			'surname'   => htmlspecialchars( $this->postData['surname'] )
 		);
 
 		$this->db->create( 'pundits', $data );

@@ -73,7 +73,7 @@ class APIServer {
 				break;
 
 			case 'create':
-				$controller = new PunditCreateController( $this->db );
+				$controller = new PunditCreateController( $this->db, $this->postData );
 				break;
 
 			default:
