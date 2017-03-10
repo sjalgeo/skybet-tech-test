@@ -50,4 +50,34 @@ class DeleteTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals( $response['command'], 'delete' );
 	}
+
+	/**
+	 * Confirm appropriate response is given when the ID is missing from the database.
+	 */
+	public function testDeleteMissing() {
+
+		$this->assertTrue(true);
+
+		$request_uri = $this->root_url . 'delete';
+
+		$parameters = array(
+			'uri'       => $request_uri,
+			'method'    => 'POST',
+			'database'  => $this->db,
+			'postdata'  => array( 'id' => 333 )
+		);
+
+		$server = new APIServer( $parameters );
+
+		$server->run();
+
+		$response  = $server->getResponse();
+
+		$this->assertArrayHasKey('status', $response);
+		$this->assertArrayHasKey('command', $response);
+
+		$this->assertEquals( $response['status'], 'failed' );
+		$this->assertEquals( $response['command'], 'delete' );
+		$this->assertEquals( $response['code'], 'ID_NOT_FOUND' );
+	}
 }

@@ -25,6 +25,7 @@ class PunditDeleteController extends JSONController {
 		if ( $error ) {
 			$this->response = array(
 				'status'    => 'failed',
+				'command'   => 'delete',
 				'code'      => $error
 			);
 		} else {
