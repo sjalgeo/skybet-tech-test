@@ -28,8 +28,6 @@ class DeleteTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testDelete() {
 
-		$this->assertTrue(true);
-
 		$request_uri = $this->root_url . 'delete';
 
 		$parameters = array(
@@ -55,8 +53,6 @@ class DeleteTest extends \PHPUnit_Framework_TestCase {
 	 * Confirm appropriate response is given when the ID is missing from the database.
 	 */
 	public function testDeleteMissing() {
-
-		$this->assertTrue(true);
 
 		$request_uri = $this->root_url . 'delete';
 

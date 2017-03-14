@@ -28,8 +28,6 @@ class UpdateTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testUpdate() {
 
-		$this->assertTrue(true);
-
 		$request_uri = $this->root_url . 'update';
 
 		$parameters = array(
@@ -59,8 +57,6 @@ class UpdateTest extends \PHPUnit_Framework_TestCase {
 	 * Test to confirm the controller responds elegantly when being called with the user id missing.
 	 */
 	public function testUpdateWithDataMissing() {
-
-		$this->assertTrue(true);
 
 		$request_uri = $this->root_url . 'update';
 

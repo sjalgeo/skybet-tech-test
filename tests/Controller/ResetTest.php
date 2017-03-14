@@ -24,12 +24,9 @@ class ResetTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @group failing
 	 * Tests that the Update controller is called given the parameters.
 	 */
 	public function testUpdate() {
-
-		$this->assertTrue(true);
 
 		$request_uri = $this->root_url . 'reset';
 
