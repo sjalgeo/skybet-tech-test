@@ -2,6 +2,8 @@
 
 namespace SkyBetTechTest\Controller;
 
+use SkyBetTechTest\FailureResponse;
+
 class PunditCreateController extends JSONController {
 	/**
 	 * Create an additional pundit and insert it into the database.
@@ -9,7 +11,12 @@ class PunditCreateController extends JSONController {
 	public function run() {
 
 		if ( ! isset( $this->postData['firstname'] ) OR ! isset( $this->postData['surname'] ) ) {
-			$this->failure_response();
+			$data = array(
+				'code' =>'invalid-data',
+				'message' =>'The required parameters were not provided.'
+			);
+			$this->response = new FailureResponse();
+			$this->response->setData( $data );
 			return;
 		}
 

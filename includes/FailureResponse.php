@@ -4,6 +4,8 @@ namespace SkyBetTechTest;
 
 class FailureResponse {
 
+	protected $response;
+
 	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
@@ -20,6 +22,10 @@ class FailureResponse {
 		if ( isset( $parameters['message'] ) ) {
 			$this->response['message'] = $parameters['message'];
 		}
+	}
+
+	public function getErrorCode() {
+		return $this->response['code'];
 	}
 
 	/**

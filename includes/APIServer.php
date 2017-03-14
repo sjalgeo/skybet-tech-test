@@ -17,12 +17,16 @@ class APIServer {
 	protected $endpoint = false;
 	protected $db;
 	protected $method;
-	protected $postData;
+	protected $postData = null;
 
 	public function __construct( $parameters ) {
 		$this->db = $parameters['database'];
 		$this->method = $parameters['method'];
-		$this->postData = $parameters['postdata'];
+
+		if ( isset( $parameters['postdata'] ) ) {
+			$this->postData = $parameters['postdata'];
+		}
+
 		$this->request_uri = $parameters['uri'];
 
 		$this->parse_endpoint();

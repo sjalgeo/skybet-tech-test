@@ -4,6 +4,7 @@ namespace SkyBetTechTest\Tests\Controller;
 
 use SkyBetTechTest\APIServer;
 use SkyBetTechTest\Database;
+use SkyBetTechTest\FailureResponse;
 
 class CreateTest extends \PHPUnit_Framework_TestCase {
 
@@ -28,8 +29,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testCreate() {
 
-		$this->assertTrue(true);
-
 		$request_uri = $this->root_url . 'create';
 
 		$parameters = array(
@@ -52,5 +51,26 @@ class CreateTest extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('command', $response);
 
 		$this->assertEquals( $response['command'], 'create' );
+	}
+
+	/**
+	 * Tests Create Controller handles missing data correctly.
+	 */
+	public function testCreateMissingData() {
+		$request_uri = $this->root_url . 'create';
+
+		$parameters = array(
+			'uri'       => $request_uri,
+			'method'    => 'POST',
+			'database'  => $this->db,
+		);
+
+		$server = new APIServer( $parameters );
+		$server->run();
+		$response  = $server->getResponse();
+
+		$code = $response->getErrorCode();
+		$this->assertInstanceOf( 'SkyBetTechTest\FailureResponse', $response );
+		$this->assertEquals( $code, 'invalid-data' );
 	}
 }
