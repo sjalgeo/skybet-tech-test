@@ -9,23 +9,24 @@ class FailureResponse {
 	/**
 	 * Failure response returned to anybody without an matching path.
 	 */
-	public function setData( $parameters ) {
-
+	public function __construct( $code, $message = null ) {
 		$this->response = array(
 			'status'    => 'error',
+			'code'      => $code,
+			'message'   => $message
 		);
+	}
 
-		if ( isset( $parameters['code'] ) ) {
-		     $this->response['code'] = $parameters['code'];
-		}
-
-		if ( isset( $parameters['message'] ) ) {
-			$this->response['message'] = $parameters['message'];
-		}
+	public function setCommand( $command ) {
+		$this->response['command'] = $command;
 	}
 
 	public function getErrorCode() {
 		return $this->response['code'];
+	}
+
+	public function getResponse() {
+		return $this->response;
 	}
 
 	/**

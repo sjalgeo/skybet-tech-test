@@ -72,7 +72,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('status', $response);
 		$this->assertArrayHasKey('command', $response);
 
-		$this->assertEquals( $response['status'], 'failed' );
+		$this->assertEquals( $response['status'], 'error' );
 		$this->assertEquals( $response['command'], 'delete' );
 		$this->assertEquals( $response['code'], 'ID_NOT_FOUND' );
 	}

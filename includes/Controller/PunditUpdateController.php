@@ -14,11 +14,8 @@ class PunditUpdateController extends JSONController {
 		if ( isset( $this->postData['id'] ) ) {
 			$id = intval( $this->postData['id'] );
 		} else {
-			$this->response = new FailureResponse();
-			$this->response->setData( array(
-				'code'      => 'invalid-data',
-				'message'   => 'The required parameters were not provided.'
-			) );
+			$message = 'The required parameters were not provided.';
+			$this->response = new FailureResponse( 'invalid-data', $message );
 			return;
 		}
 

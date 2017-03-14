@@ -11,12 +11,8 @@ class PunditCreateController extends JSONController {
 	public function run() {
 
 		if ( ! isset( $this->postData['firstname'] ) OR ! isset( $this->postData['surname'] ) ) {
-			$data = array(
-				'code' =>'invalid-data',
-				'message' =>'The required parameters were not provided.'
-			);
-			$this->response = new FailureResponse();
-			$this->response->setData( $data );
+			$message = 'The required parameters were not provided.';
+			$this->response = new FailureResponse( 'invalid-data', $message );
 			return;
 		}
 

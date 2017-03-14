@@ -2,18 +2,15 @@
 
 namespace SkyBetTechTest\Controller;
 
+use SkyBetTechTest\FailureResponse;
+
 class PunditDeleteController extends JSONController {
 
 	public function run() {
 
 		if ( ! isset( $this->postData['id'] ) ) {
-
-			$this->response = array(
-				'status'    => 'error',
-				'code'      => 'missing-parameter',
-				'message'   => 'No pundit ID was provided.'
-			);
-
+			$message = 'No pundit ID was provided.';
+			$this->response = new FailureResponse( 'missing-parameter', $message );
 			return;
 		}
 
@@ -23,11 +20,8 @@ class PunditDeleteController extends JSONController {
 		$error = $this->db->get_last_error();
 
 		if ( $error ) {
-			$this->response = array(
-				'status'    => 'failed',
-				'command'   => 'delete',
-				'code'      => $error
-			);
+			$this->response = new FailureResponse( $error );
+			$this->response->setCommand( 'delete' );
 		} else {
 			$this->response = array(
 				'status'    => 'success',

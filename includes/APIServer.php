@@ -47,14 +47,10 @@ class APIServer {
 	/**
 	 * Runs the required service based on the endpoint requested.
 	 */
-	public function run( $return = false ) {
+	public function run() {
 
 		if ( ! in_array( $this->method, array('GET', 'POST') ) ) {
-			$this->response = array(
-				'status'    => 'error',
-				'code'      => 'invalid-method',
-				'message'   => 'Invalid HTTP Method.'
-			);
+			$this->response = new FailureResponse( 'invalid-method', 'Invalid HTTP Method.' );
 			return;
 		}
 
@@ -82,11 +78,8 @@ class APIServer {
 
 			default:
 				$controller = null;
-				$data = array(
-					'code' =>'invalid-request',
-					'message' =>'This request was invalid please check your things.'
-				);
-				$this->response = new FailureResponse( $data );
+				$message = 'This request was invalid please check your things.';
+				$this->response = new FailureResponse( 'invalid-request', $message );
 
 		}
 
@@ -97,6 +90,10 @@ class APIServer {
 	}
 
 	public function getResponse() {
+		if ( $this->response instanceof FailureResponse ){
+			return $this->response->getResponse();
+		}
+
 		return $this->response;
 	}
 

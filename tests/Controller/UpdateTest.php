@@ -74,8 +74,6 @@ class UpdateTest extends \PHPUnit_Framework_TestCase {
 		$server->run();
 		$response  = $server->getResponse();
 
-		$code = $response->getErrorCode();
-		$this->assertInstanceOf( 'SkyBetTechTest\FailureResponse', $response );
-		$this->assertEquals( $code, 'invalid-data' );
+		$this->assertEquals( $response['code'], 'invalid-data' );
 	}
 }
