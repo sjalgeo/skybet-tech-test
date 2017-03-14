@@ -2,6 +2,8 @@
 
 namespace SkyBetTechTest\Controller;
 
+use SkyBetTechTest\FailureResponse;
+
 class PunditUpdateController extends JSONController {
 
 	/**
@@ -9,7 +11,17 @@ class PunditUpdateController extends JSONController {
 	 */
 	public function run() {
 
-		$id = intval( $this->postData['id'] );
+		if ( isset( $this->postData['id'] ) ) {
+			$id = intval( $this->postData['id'] );
+		} else {
+			$this->response = new FailureResponse();
+			$this->response->setData( array(
+				'code'      => 'invalid-data',
+				'message'   => 'The required parameters were not provided.'
+			) );
+			return;
+		}
+
 		$data = array(
 			'firstname' => htmlspecialchars( $this->postData['firstname'] ),
 			'surname'   => htmlspecialchars( $this->postData['surname'] )

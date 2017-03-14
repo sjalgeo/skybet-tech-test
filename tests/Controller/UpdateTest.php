@@ -54,4 +54,32 @@ class UpdateTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals( $response['command'], 'update' );
 	}
+
+	/**
+	 * Test to confirm the controller responds elegantly when being called with the user id missing.
+	 */
+	public function testUpdateWithDataMissing() {
+
+		$this->assertTrue(true);
+
+		$request_uri = $this->root_url . 'update';
+
+		$parameters = array(
+			'uri'       => $request_uri,
+			'method'    => 'POST',
+			'database'  => $this->db,
+			'postdata'  => array(
+				'firstname' => 'Andrei',
+				'surname'   => 'Kanchelskis',
+			)
+		);
+
+		$server = new APIServer( $parameters );
+		$server->run();
+		$response  = $server->getResponse();
+
+		$code = $response->getErrorCode();
+		$this->assertInstanceOf( 'SkyBetTechTest\FailureResponse', $response );
+		$this->assertEquals( $code, 'invalid-data' );
+	}
 }
